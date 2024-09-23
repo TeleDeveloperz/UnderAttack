@@ -1,0 +1,49 @@
+
+name: CI/CD
+
+on: [push]
+
+jobs:
+  test_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r UnderAttack/backend/requirements.txt
+      - name: Run tests
+        run: python -m unittest discover UnderAttack/backend/tests
+
+  test_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: |
+          cd UnderAttack/frontend
+          npm ci
+      - name: Run tests
+        run: |
+          cd UnderAttack/frontend
+          npm test
+
+  deploy:
+    needs: [test_backend, test_frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
+    

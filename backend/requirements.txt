@@ -1,0 +1,8 @@
+
+Flask
+Flask-WTF
+Flask-Limiter
+Flask-SQLAlchemy
+Flask-Caching
+requests
+    
