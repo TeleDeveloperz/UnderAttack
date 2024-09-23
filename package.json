@@ -1,0 +1,24 @@
+{
+  "name": "underattack",
+  "version": "1.0.0",
+  "description": "A full-stack solution to provide JavaScript challenges and CAPTCHA-like protection for visitors accessing your website. Inspired by Cloudflare's \"Under Attack\" mode.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.11.0",
+    "eslint": "^9.11.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-react": "^7.36.1",
+    "globals": "^15.9.0",
+    "prettier": "^3.3.3"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

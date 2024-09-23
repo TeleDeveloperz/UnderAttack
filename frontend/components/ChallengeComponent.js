@@ -1,8 +1,13 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
 
-import { useState } from 'react';
+ChallengeComponent.propTypes = {
+  challenge: PropTypes.string.isRequired,
+  onSolve: PropTypes.func.isRequired,
+};
 
 export default function ChallengeComponent({ challenge, onSolve }) {
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,9 +18,9 @@ export default function ChallengeComponent({ challenge, onSolve }) {
     <div role="form" aria-label="Security Challenge">
       <form onSubmit={handleSubmit}>
         <label htmlFor="challenge-input">Solve the challenge:</label>
-        <input 
-          id="challenge-input" 
-          type="text" 
+        <input
+          id="challenge-input"
+          type="text"
           value={response}
           onChange={(e) => setResponse(e.target.value)}
           aria-describedby="challenge-description"
@@ -26,4 +31,3 @@ export default function ChallengeComponent({ challenge, onSolve }) {
     </div>
   );
 }
-    

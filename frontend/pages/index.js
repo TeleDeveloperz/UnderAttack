@@ -1,11 +1,10 @@
-
-import { useEffect, useState } from 'react';
-import ChallengeComponent from '../components/ChallengeComponent';
+import { useEffect, useState } from "react";
+import ChallengeComponent from "../components/ChallengeComponent";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [challenge, setChallenge] = useState('');
+  const [error, setError] = useState(null); // Null as default value
+  const [challenge, setChallenge] = useState("");
   const [jsEnabled, setJsEnabled] = useState(false);
 
   useEffect(() => {
@@ -16,11 +15,14 @@ export default function Home() {
   const fetchChallenge = async () => {
     try {
       const res = await fetch("http://localhost:5000/");
+      if (!res.ok) {
+        throw new Error("Failed to fetch challenge");
+      }
       const data = await res.json();
       setChallenge(data.challenge);
       setLoading(false);
     } catch (err) {
-      setError(true);
+      setError("Unable to fetch challenge. Please try again.");
     }
   };
 
@@ -34,22 +36,26 @@ export default function Home() {
         body: JSON.stringify({ challenge, response }),
       });
 
-      if (verification.ok) {
-        setLoading(false);
-      } else {
-        setError(true);
+      if (!verification.ok) {
+        throw new Error("Verification failed");
       }
+
+      setLoading(false);
     } catch (err) {
-      setError(true);
+      setError("Verification failed. Please try again.");
     }
   };
 
   if (!jsEnabled) {
-    return <noscript>Please enable JavaScript to access this site.</noscript>;
+    return (
+      <noscript>
+        <div>Please enable JavaScript to access this site.</div>
+      </noscript>
+    );
   }
 
   if (error) {
-    return <div>Verification failed.</div>;
+    return <div>{error}</div>;
   }
 
   return (
@@ -62,4 +68,3 @@ export default function Home() {
     </div>
   );
 }
-    
